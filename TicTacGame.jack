@@ -1,0 +1,223 @@
+class TicTacGame{
+
+    field int turn,Location,player1,player2,winner,check;
+    field boolean firstPlayer;
+    field Array arr;
+
+    /**
+
+    This is the TicTacGame constructor that creates an new object.
+
+    */
+    constructor TicTacGame new(){
+        var int count;
+        let turn =0;
+        let winner= 0;
+        let check=0;
+        let player1 = 1;
+        let player2 =2;
+        let firstPlayer=true;
+
+        let arr = Array.new(9);
+        let count = 0;
+        while (count <9){
+            let arr[count] = 0;
+            let count = count+1;
+        }
+        return this;
+    }
+
+    /**
+    This function is returning the location that the player wants to put the X/O in it.
+    */
+    method int location(){
+        var int key;
+        var int ChosenKey;
+        // waits for a key to be pressed
+        while(key=0){
+            let key = Keyboard.keyPressed();
+            while ((key <49 | key>57)) {
+                        let key = Keyboard.keyPressed();
+                     }
+
+        }
+        if (key = 49)  { let ChosenKey = 1;}
+        if (key = 50)  { let ChosenKey = 2 ;}
+        if (key = 51)  { let ChosenKey = 3 ;}
+        if (key = 52) { let ChosenKey = 4 ;}
+        if (key = 53) { let ChosenKey = 5 ;}
+        if (key = 54) { let ChosenKey = 6 ;}
+        if (key = 55) { let ChosenKey = 7 ;}
+        if (key = 56) { let ChosenKey = 8 ;}
+        if (key = 57) { let ChosenKey = 9 ;}
+
+         // waits for the key to be released
+        while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+        }
+
+         return ChosenKey;
+
+
+    }
+    /**
+
+    This function is checking if the current player won or not.
+    */
+    method void isWin(int playerNum) {
+        var int result;
+        let result = Math.multiply(Math.multiply(playerNum, playerNum), playerNum);
+
+        if( Math.multiply(Math.multiply(arr[0], arr[3]), arr[6])=result){
+
+            let winner = playerNum;
+            do Screen.drawLine(70,50,70,206);
+            do Screen.drawLine(71,50,71,207);
+            do Screen.drawLine(72,50,72,208);
+            do Screen.drawLine(73,50,73,209);
+            return;
+        }
+        if(Math.multiply(Math.multiply(arr[0], arr[4]),arr[8])=result){
+            let winner = playerNum;
+             do Screen.drawLine(70,50,270,206);
+             do Screen.drawLine(70,51,270,207);
+             do Screen.drawLine(70,52,270,208);
+             do Screen.drawLine(70,53,270,209);
+             return;
+
+        }
+        if(Math.multiply(Math.multiply(arr[0], arr[1]), arr[2])=result){
+            let winner = playerNum;
+            do Screen.drawLine(70,50,270,50);
+            do Screen.drawLine(70,51,270,51);
+            do Screen.drawLine(70,52,270,52);
+            do Screen.drawLine(70,53,270,53);
+            return;
+        }
+
+        if( Math.multiply(Math.multiply(arr[1], arr[4]), arr[7])=result){
+
+            let winner = playerNum;
+            do Screen.drawLine(170,50,170,206);
+            do Screen.drawLine(171,50,171,206);
+            do Screen.drawLine(172,50,172,206);
+            do Screen.drawLine(173,50,173,206);
+            return;
+
+        }
+        if( Math.multiply(Math.multiply(arr[3], arr[4]), arr[5])=result){
+
+             let winner = playerNum;
+             do Screen.drawLine(70,128,270,128);
+             do Screen.drawLine(70,129,270,129);
+             do Screen.drawLine(70,130,270,130);
+             do Screen.drawLine(70,131,270,131);
+             return;
+        }
+        if( Math.multiply(Math.multiply(arr[2], arr[4]), arr[6])=result){
+            let winner = playerNum;
+            do Screen.drawLine(70,206,270,50);
+            do Screen.drawLine(70,207,270,51);
+            do Screen.drawLine(70,208,270,52);
+            do Screen.drawLine(70,209,270,53);
+            return;
+
+        }
+
+
+        if( Math.multiply(Math.multiply(arr[6], arr[7]), arr[8])=result){
+
+             let winner = playerNum;
+             do Screen.drawLine(70,206,270,206);
+             do Screen.drawLine(70,207,270,207);
+             do Screen.drawLine(70,208,270,208);
+             do Screen.drawLine(70,209,270,209);
+             return;
+
+        }
+        if( Math.multiply(Math.multiply(arr[2], arr[5]), arr[8])=result){
+
+            let winner = playerNum;
+             do Screen.drawLine(270,50,270,206);
+             do Screen.drawLine(271,50,271,206);
+             do Screen.drawLine(272,50,272,206);
+             do Screen.drawLine(273,50,273,206);
+             return;
+
+        }
+        return ;
+    }
+
+
+
+    /**
+
+    In the game at most there is 9 rounds and that a single round.
+    */
+    method void round(){
+
+        let Location=location();
+        while (~(arr[Location - 1] = 0)) {
+            let Location = location();
+        }
+
+        if(firstPlayer){
+
+            let arr[Location-1]=1;
+
+            do Board.draw_X(Location);
+            do isWin(player1);
+            let firstPlayer=false;
+            let check=1;
+            return;
+
+
+        }
+        else {
+
+
+            let arr[Location-1]=2;
+
+            do Board.draw_O(Location);
+            do isWin(player2);
+            let firstPlayer=true;
+            let check=0;
+            return;
+
+
+        }
+    }
+
+    /**
+    starts the game rounds.
+
+    */
+     method int runGame() {
+         while (turn < 9) {
+            if(check=1 & turn>0){
+                do Board.drawTwo();
+                do Board.eraseOne();
+            }
+            if(check=0 ){
+               do Board.drawOne();
+               if(turn>0){
+                    do Board.eraseTwo();
+               }
+            }
+
+               do round();
+               if (~(winner = 0)) {
+                   return winner;
+               }
+               let turn = turn + 1;
+           }
+           return winner;
+       }
+
+      /** Disposes this game. */
+     method void dispose() {
+          do arr.dispose();
+          do Memory.deAlloc(this);
+          return;
+     }
+}

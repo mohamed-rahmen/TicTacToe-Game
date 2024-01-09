@@ -1,0 +1,31 @@
+class Main {
+
+    /**
+    The main function that calls the TicTacGame object and the Board .
+
+    */
+
+    function void main(){
+        var int winner ;
+        var TicTacGame game;
+        do Board.drawBoard();
+        let game = TicTacGame.new();
+        let winner = game.runGame();
+        do Sys.wait(1000);
+        do Screen.clearScreen();
+        if(winner=1){
+            do Output.printString("The first player is the WINNER! great job ");
+        }
+        if(winner=2){
+            do Output.printString("The second player is the WINNER! great job ");
+        }
+
+        if(winner=0){
+            do Output.printString("There is no winner :( ");
+
+        }
+
+        do game.dispose();
+        return;
+    }
+}
